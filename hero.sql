@@ -157,3 +157,20 @@ VALUES
 
 ALTER TABLE item_price
 ADD item_price NUMERIC(10,2);
+
+BEGIN;
+-- Update the state of hero 1 to inactive
+UPDATE public.hero
+SET is_active = false
+WHERE hero_id = 1;
+
+-- Delete the items associated with hero 1
+DELETE FROM public.heroitem
+WHERE hero_id = 1;
+
+COMMIT;
+
+SELECT p.player_name, h.hero_name
+FROM public.player p
+JOIN public.hero h ON p.hero_id = h.hero_id
+WHERE h.is_active = true;
